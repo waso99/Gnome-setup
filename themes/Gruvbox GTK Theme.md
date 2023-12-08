@@ -1,2 +1,0 @@
-
-Gruvbox GTK Theme
