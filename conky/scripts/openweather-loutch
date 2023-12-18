@@ -1,0 +1,97 @@
+#!/bin/bash
+
+# show weather icon with text icon (original by @Closebox73)
+
+if [[ $1 = "-i" ]]; then
+
+	# icon font based openweathermap.org data
+	ICON_01D=""
+	ICON_01N=""
+	ICON_02D=""
+	ICON_02N=""
+	ICON_03D=""
+	ICON_03N=""
+	ICON_04D=""
+	ICON_04N=""
+	ICON_09D=""
+	ICON_09N=""
+	ICON_10D=""
+	ICON_10N=""
+	ICON_11D=""
+	ICON_11N=""
+	ICON_13D=""
+	ICON_13N=""
+	ICON_50D=""
+	ICON_50N=""
+
+	WEATHER_ICON=$(cat ~/.cache/weather.json | jq -r '.weather[0].icon')
+
+		if [[ "${WEATHER_ICON}" = *01d* ]]; then	echo "${ICON_01D}"
+		elif [[ "${WEATHER_ICON}" = *01n* ]]; then	echo "${ICON_01N}"
+		elif [[ "${WEATHER_ICON}" = *02d* ]]; then	echo "${ICON_02D}"
+		elif [[ "${WEATHER_ICON}" = *02n* ]]; then	echo "${ICON_02N}"
+		elif [[ "${WEATHER_ICON}" = *03d* ]]; then	echo "${ICON_03D}"
+		elif [[ "${WEATHER_ICON}" = *03n* ]]; then	echo "${ICON_03N}"
+		elif [[ "${WEATHER_ICON}" = *04d* ]]; then	echo "${ICON_04D}"
+		elif [[ "${WEATHER_ICON}" = *04n* ]]; then	echo "${ICON_04N}"
+		elif [[ "${WEATHER_ICON}" = *09d* ]]; then	echo "${ICON_09D}"
+		elif [[ "${WEATHER_ICON}" = *09n* ]]; then	echo "${ICON_09N}"
+		elif [[ "${WEATHER_ICON}" = *10d* ]]; then	echo "${ICON_10D}"
+		elif [[ "${WEATHER_ICON}" = *10n* ]]; then	echo "${ICON_10N}"
+		elif [[ "${WEATHER_ICON}" = *11d* ]]; then	echo "${ICON_11D}"
+		elif [[ "${WEATHER_ICON}" = *11n* ]]; then	echo "${ICON_11N}"
+		elif [[ "${WEATHER_ICON}" = *13d* ]]; then	echo "${ICON_13D}"
+		elif [[ "${WEATHER_ICON}" = *13n* ]]; then	echo "${ICON_13N}"
+		elif [[ "${WEATHER_ICON}" = *50d* ]]; then	echo "${ICON_50D}"
+		elif [[ "${WEATHER_ICON}" = *50n* ]]; then	echo "${ICON_50N}"
+	fi
+
+fi
+
+# transform "wind.deg" value into "NEWS" format (by @ceeslans)
+
+if [[ $1 = "-d" ]]; then
+
+	WIND_DEG=$(cat ~/.cache/weather.json | jq '.wind.deg')
+
+		if [[ $WIND_DEG -le 11 ]]; then		echo "N"
+		elif [[ $WIND_DEG -le 33 ]]; then	echo "NNE"
+		elif [[ $WIND_DEG -le 56 ]]; then	echo "NE"
+		elif [[ $WIND_DEG -le 78 ]]; then	echo "ENE"
+		elif [[ $WIND_DEG -le 101 ]]; then	echo "E"
+		elif [[ $WIND_DEG -le 123 ]]; then	echo "ESE"
+		elif [[ $WIND_DEG -le 146 ]]; then	echo "SE"
+		elif [[ $WIND_DEG -le 168 ]]; then	echo "SSE"
+		elif [[ $WIND_DEG -le 191 ]]; then	echo "S"
+		elif [[ $WIND_DEG -le 213 ]]; then	echo "SSW"
+		elif [[ $WIND_DEG -le 236 ]]; then	echo "SW"
+		elif [[ $WIND_DEG -le 258 ]]; then	echo "WSW"
+		elif [[ $WIND_DEG -le 281 ]]; then	echo "W"
+		elif [[ $WIND_DEG -le 303 ]]; then	echo "WNW"
+		elif [[ $WIND_DEG -le 326 ]]; then	echo "NW"
+		elif [[ $WIND_DEG -le 348 ]]; then	echo "NNW"
+		elif [[ $WIND_DEG -le 360 ]]; then	echo "N"
+		else	echo "?!?"
+	fi
+
+fi
+
+##### transform 'wind' values from "m/s" into "km/h" value (by @ceeslans)
+
+if [[ $1 = "-s" ]]; then
+
+	WIND_SPD=$(cat ~/.cache/weather.json | jq '.wind.speed')
+	WIND_KMH=$(echo "${WIND_SPD}*3.6" | bc)
+
+		echo "${WIND_KMH}"
+fi
+
+if [[ $1 = "-g" ]]; then
+
+	WIND_GST=$(cat ~/.cache/weather.json | jq '.wind.gust')
+	WIND_KMH=$(echo "${WIND_GST}*3.6" | bc)
+
+		echo "${WIND_KMH}"
+fi
+
+### EOF ###
