@@ -2,7 +2,7 @@
 
 install most apps:
 ```
-sudo apt install kitty thunar xfce4-settings neofetch zsh ranger python3-pil git curl conky neofetch -y
+sudo apt install kitty thunar xfce4-settings neofetch zsh ranger python3-pil git curl conky neofetch lm-sensors -y
 ```
 ## Apply theme for Other shell Apps
 To apply theme for other Gnome apps, just copy files from (```~/.themes/[theme-name]/gtk-4.0```) to (```~/.config/gtk-4.0```) then reboot.
